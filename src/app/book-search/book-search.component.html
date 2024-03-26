@@ -1,0 +1,43 @@
+<router-outlet></router-outlet>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand" href="#">Book Finder</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <form class="form-inline my-2 my-lg-0 ml-auto" (ngSubmit)="searchBooks()">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search for books..."  [(ngModel)]="searchQuery" name="searchQuery">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <form class="input-group" (ngSubmit)="searchBooks()">
+        <input type="text" class="form-control" placeholder="Search for books..." [(ngModel)]="searchQuery" name="searchQuery">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit">Sear</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <ng-container *ngFor="let book of books">
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <img class="card-img-top" *ngIf="book.volumeInfo.imageLinks" [src]="book.volumeInfo.imageLinks.thumbnail" alt="Book Thumbnail">
+          <div class="card-body">
+            <h5 class="card-title">{{ book.volumeInfo.title }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Author(s): {{ book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown Author' }}</h6>
+            <!-- <p class="card-text">{{ book.volumeInfo.description ? book.volumeInfo.description.substring(0, 100) + '...' : 'No description available.' }}</p> -->
+            <a href="#" class="card-link" (click)="openBook(book.id); $event.preventDefault()" target="_blank">View More</a>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
