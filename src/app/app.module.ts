@@ -6,11 +6,13 @@ import { BookSearchComponent } from './book-search/book-search.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BookSearchComponent
+    BookSearchComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

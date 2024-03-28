@@ -1,7 +1,7 @@
-
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BookSearchService } from '../../book-search.service';
+import { BookSearchService } from 'src/app/book-search/book-search.service';
+import { Location } from '@angular/common'; // Import Location service
 
 @Component({
   selector: 'app-book-details',
@@ -12,28 +12,23 @@ export class BookDetailsComponent implements OnInit {
   bookId!: string;
   book: any;
 
-  constructor(private route: ActivatedRoute, private bookService: BookSearchService) { }
+  constructor(private route: ActivatedRoute, private bookService: BookSearchService, private location: Location) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id !== null) {
-        this.bookId = id;
-        this.loadBookDetails(this.bookId);
-      }
+      this.bookId = params.get('id')!;
+      this.loadBookDetails();
     });
   }
 
-  loadBookDetails(bookId: string): void {
-    this.bookService.getBookDetails(bookId)
+  loadBookDetails(){
+    this.bookService.detailsBook(this.bookId)
       .subscribe(
-        (data: any) => {
-          this.book = data;
-          console.log(this.book); // Log the book object to inspect its structure
-        },
-        (error: any) => {
-          console.error('Error fetching book details:', error);
-        }
+        (data: any) => this.book = data
       );
+  }
+
+  goBack(){
+    this.location.back();
   }
 }

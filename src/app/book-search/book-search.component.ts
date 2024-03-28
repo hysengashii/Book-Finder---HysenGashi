@@ -8,36 +8,43 @@ import { Router } from '@angular/router';
   styleUrls: ['./book-search.component.css']
 })
 export class BookSearchComponent implements OnInit {
-  searchQuery: string = '';
+  searchQuery = '';
   books: any[] = [];
 
-  constructor(private bookSearchService: BookSearchService, private router:Router) {}
+  constructor(
+    private bookSearchService: BookSearchService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.loadDefaultBooks();
+    this.loadSearch();
   }
 
-  loadDefaultBooks(): void {
-    this.bookSearchService.searchBooks('') // Passing an empty string to searchBooks to get default books
-      .subscribe(
-        data => {
-          this.books = data.items ? data.items.slice(0, 6) : []; // Load the first 10 books
-        },
-        error => {
-          console.error('Error fetching data:', error);
-        }
-      );
+  loadSearch(){
+    const lastSearch = JSON.parse(localStorage.getItem('lastSearch') || '{}');
+    this.searchQuery = lastSearch.query || '';
+    this.books = lastSearch.results || [];
+    this.searchQuery = '';
   }
-  openBook(bookId: string): void {
+
+  showBooks(){
+    this.bookSearchService.searchingBooks(this.searchQuery)
+      .subscribe(data => {
+        this.books = data.items?.slice(0, 12) ?? [];
+        this.saveSearch();
+      });
+  }
+
+  openBook(bookId: string){
     this.router.navigate(['/book-details', bookId]);
   }
 
-  searchBooks(): void {
-    if (this.searchQuery.trim() !== '') {
-      this.bookSearchService.searchBooks(this.searchQuery)
-        .subscribe(data => {
-          this.books = data.items ? data.items : [];
-        });
-    }
+  saveSearch(){
+    localStorage.setItem('lastSearch', JSON.stringify({ query: this.searchQuery, results: this.books }));
+    this.searchQuery = '';
+  }
+
+  searchBooks(){
+    this.showBooks();
   }
 }

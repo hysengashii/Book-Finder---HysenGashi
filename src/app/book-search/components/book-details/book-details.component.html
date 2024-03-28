@@ -1,23 +1,30 @@
-<p class="lead">Book Details</p>
+
 
 <div class="container mt-5">
-  <div class="row">
-    <div class="col-md-8 offset-md-2">
+  <div class="text-center mt-4">
+    <button class="btn btn-secondary" (click)="goBack()">Go Back</button>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
       <div class="card">
         <div class="card-body">
-          <img src="{{ book.volumeInfo.imageLinks.thumbnail }}" class="card-img-top" alt="Book Cover">
+          <div class="text-center">
+            <img src="{{ book.volumeInfo.imageLinks.thumbnail }}" class="card-img-top" alt="Book Cover">
+          </div>
 
-          <h5 class="card-title">{{ book.volumeInfo.title }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Author(s): {{ book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown Author' }}</h6>
+          <h5 class="card-title text-center mt-3">{{ book.volumeInfo.title }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted text-center">Author(s): {{ book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown Author' }}</h6>
 
-          <p class="card-text" [innerHTML]="book.volumeInfo.description ? book.volumeInfo.description : 'No description available.'"></p>
+          <p class="card-text mt-3" [innerHTML]="book.volumeInfo.description ? book.volumeInfo.description : 'No description available.'"></p>
+
           <ul class="list-group mt-3">
-            <li class="list-group-item">Publication Date: {{ book.volumeInfo.publishedDate }}</li>
-            <li class="list-group-item">Publisher: {{ book.volumeInfo.publisher ? book.volumeInfo.publisher : 'Unknown Publisher' }}</li>
-            <li class="list-group-item">ISBN: {{ book.volumeInfo.industryIdentifiers ? book.volumeInfo.industryIdentifiers[0].identifier : 'Not Available' }}</li>
+            <li class="list-group-item"><strong>Publication Date:</strong> {{ book.volumeInfo.publishedDate }}</li>
+            <li class="list-group-item"><strong>Publisher:</strong> {{ book.volumeInfo.publisher ? book.volumeInfo.publisher : 'Unknown Publisher' }}</li>
+            <li class="list-group-item"><strong>ISBN:</strong> {{ book.volumeInfo.industryIdentifiers ? book.volumeInfo.industryIdentifiers[0].identifier : 'Not Available' }}</li>
           </ul>
         </div>
       </div>
     </div>
   </div>
 </div>
+
